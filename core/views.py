@@ -1,3 +1,4 @@
+from django.http.response import Http404, jsonResponse
 from django.shortcuts import redirect, render
 from core.models import Evento
 from django.contrib.auth.decorators import login_required
@@ -87,7 +88,19 @@ def submit_evento(request):
 @login_required(login_url="/login/")
 def delete_evento(request, id_evento):
     ususario = request.user
-    Evento.objects.get(id=id_evento)
+    try:
+        evento = Evento.objects.get(id=id_evento)
+    except Exception:
+        raise Http404()
     if ususario == evento.usuario:
         evento.delete()
+    else:
+        raise Http404()
     return redirect("/")
+
+
+@login_required(login_url="/login/")  # Requer autenticação do login
+def json_list_eventos(request):
+    user = request.user
+    evento = Evento.objects.filter(usuario=user).values("id", "title")
+    return jsonResponse(list(evento), safe=False)
