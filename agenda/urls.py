@@ -22,4 +22,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("agenda/", views.list_eventos),
     path("", RedirectView.as_view(url="/agenda/")),
+    path("login/", views.login_user),
+    path("logout/", views.logout_user),
+    path("login/submit", views.submit_log),
 ]
