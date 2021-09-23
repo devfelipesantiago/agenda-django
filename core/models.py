@@ -23,3 +23,6 @@ class Evento(models.Model):
     # class Meta: db_table = 'evento'
     def __str__(self) -> str:
         return self.title
+
+    def get_data_evento(self):
+        return self.data_evento.strftime("%d/%m/%Y %H:%M Hrs")
