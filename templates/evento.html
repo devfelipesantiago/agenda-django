@@ -7,18 +7,19 @@
     <div>
       <label for="title">
         Titulo
-        <input type="text" name="title" id="title">
+        <input type="text" name="title" id="title" value="{{ evento.title }}">
       </label>
     </div>
+    <input type="number" name="id_evento" id="id_evento" value="{{ evento.id }}" hidden>
     <div>
       <label for="data_evento">
         Data do Evento
-        <input type="datetime-local" name="data_evento" id="data_evento">
+        <input type="datetime-local" name="data_evento" id="data_evento" value="{{ evento.data_evento }}">
       </label>
     </div>
     <div>
-      <label for="descricao">Descrição</label>
-      <textarea name="descricao" id="descricao" cols="20" rows="5"></textarea>
+      <label for=" descricao">Descrição</label>
+      <textarea name="descricao" id="descricao" cols="20" rows="5">{{ evento.descricao }}</textarea>
     </div>
     <div>
       <button type="submit">Salvar</button>

@@ -49,7 +49,12 @@ def list_eventos(request):
 
 @login_required(login_url="/login/")
 def evento(request):
-    return render(request, "evento.html")
+    id_evento = request.GET.get("id")
+    print(id_evento)
+    dados = {}
+    if id_evento:
+        dados["evento"] = Evento.objects.get(id=id_evento)
+    return render(request, "evento.html", dados)
 
 
 # Pegar os dados do submit
@@ -60,11 +65,29 @@ def submit_evento(request):
         data_evento = request.POST.get("data_evento")
         descricao = request.POST.get("descricao")
         usuario = request.user
-        # Agora temos que registrar os dados coletados
-        Evento.objects.create(
-            title=title,
-            data_evento=data_evento,
-            description=descricao,
-            usuario=usuario,
-        )  # Os campos iguais das colunas da tabela
+        # Atualizar os dados
+        id_evento = request.POST.get("id_evento")
+        if id_evento:
+            Evento.objects.filter(id=id_evento).update(
+                title=title,
+                data_evento=data_evento,
+                description=descricao,
+            )
+        else:
+            # Agora temos que registrar os dados coletados
+            Evento.objects.create(
+                title=title,
+                data_evento=data_evento,
+                description=descricao,
+                usuario=usuario,
+            )  # Os campos iguais das colunas da tabela
+    return redirect("/")
+
+
+@login_required(login_url="/login/")
+def delete_evento(request, id_evento):
+    ususario = request.user
+    Evento.objects.get(id=id_evento)
+    if ususario == evento.usuario:
+        evento.delete()
     return redirect("/")

@@ -5,7 +5,12 @@ from core.models import Evento
 
 
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ("title", "data_evento", "data_criacao")  # Campos que devem
+    list_display = (
+        "id",
+        "title",
+        "data_evento",
+        "data_criacao",
+    )  # Campos que devem
     # aparecer no meu evento
     list_filter = (
         "title",
