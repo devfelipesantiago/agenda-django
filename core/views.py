@@ -39,9 +39,32 @@ def submit_log(request):
     return redirect("/")
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/login/")  # Requer autenticação do login
 def list_eventos(request):
     user = request.user
     evento = Evento.objects.filter(usuario=user)
     dados = {"eventos": evento}
     return render(request, "agenda.html", dados)
+
+
+@login_required(login_url="/login/")
+def evento(request):
+    return render(request, "evento.html")
+
+
+# Pegar os dados do submit
+@login_required(login_url="/login/")
+def submit_evento(request):
+    if request.POST:
+        title = request.POST.get("title")
+        data_evento = request.POST.get("data_evento")
+        descricao = request.POST.get("descricao")
+        usuario = request.user
+        # Agora temos que registrar os dados coletados
+        Evento.objects.create(
+            title=title,
+            data_evento=data_evento,
+            description=descricao,
+            usuario=usuario,
+        )  # Os campos iguais das colunas da tabela
+    return redirect("/")
